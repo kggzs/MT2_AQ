@@ -1,0 +1,47 @@
+{
+    "accounts": {
+        "用户1": {
+            "history": [
+                {
+                    "date": "2025-03-21",
+                    "time": "14:58:01",
+                    "status": "success",
+                    "consecutive_days": 40,
+                    "rank": 951,
+                    "level": 11,
+                    "reward": 3,
+                    "total_days": 1727
+                }
+            ],
+            "last_sign": "2025-03-21",
+            "consecutive_days": 40,
+            "total_days": 1727
+        },
+        "用户2": {
+            "history": [
+                {
+                    "date": "2025-03-21",
+                    "time": "14:58:11",
+                    "status": "success",
+                    "consecutive_days": 31,
+                    "rank": 760,
+                    "level": 9,
+                    "reward": 1,
+                    "total_days": 521
+                }
+            ],
+            "last_sign": "2025-03-21",
+            "consecutive_days": 31,
+            "total_days": 521
+        }
+    },
+    "summary": {
+        "2025-03-21": {
+            "total_accounts": 2,
+            "success_count": 2,
+            "fail_count": 0,
+            "total_rewards": 4,
+            "execution_time": 11.03
+        }
+    }
+}
