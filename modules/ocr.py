@@ -40,10 +40,10 @@ class OCRManager:
                 url = "https://aip.baidubce.com/oauth/2.0/token"
                 params = {"grant_type": "client_credentials", "client_id": self.api_key, "client_secret": self.secret_key}
                 response = requests.post(url, params=params, timeout=self.request_timeout)
-                if response.status_code == 200 and "access_token" in response.json():
-                    return str(response.json().get("access_token"))
-                else:
+                if response.status_code != 200 or "access_token" not in response.json():
                     logger.error(f"获取access_token失败: {response.text}")
+                    continue
+                return str(response.json().get("access_token"))
             except Timeout:
                 logger.warning(f"获取access_token超时，第{attempt+1}次尝试")
             except Exception as e:
@@ -91,18 +91,18 @@ class OCRManager:
             result = response.json()
             
             # 解析结果
-            if 'words_result' in result and len(result['words_result']) > 0:
-                captcha_text = result['words_result'][0]['words']
-                # 清理验证码文本，移除空格和特殊字符
-                import re
-                captcha_text = re.sub(r'[\s+]', '', captcha_text)
-                # 确保验证码只包含字母和数字
-                captcha_text = re.sub(r'[^a-zA-Z0-9]', '', captcha_text)
-                logger.info(f"验证码识别结果: {captcha_text}")
-                return captcha_text
-            else:
+            if 'words_result' not in result or not result['words_result']:
                 logger.error(f"验证码识别失败: {result}")
                 return None
+                
+            captcha_text = result['words_result'][0]['words']
+            # 清理验证码文本，移除空格和特殊字符
+            import re
+            captcha_text = re.sub(r'[\s+]', '', captcha_text)
+            # 确保验证码只包含字母和数字
+            captcha_text = re.sub(r'[^a-zA-Z0-9]', '', captcha_text)
+            logger.info(f"验证码识别结果: {captcha_text}")
+            return captcha_text
         except Timeout:
             logger.error(f"验证码识别请求超时")
             return None
