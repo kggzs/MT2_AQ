@@ -44,15 +44,17 @@ class AccountManager:
             with open(self.account_file, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 
-            # 确保从accounts字段中获取账号列表
-            accounts = data.get('accounts', [])
+            # 直接使用加载的数据作为账号列表
+            if not isinstance(data, list):
+                logger.error(f"账号配置文件格式错误，应为账号列表格式")
+                return []
                 
-            if not accounts:
+            if not data:
                 logger.warning(f"账号配置文件为空，请添加账号信息")
                 return []
                 
-            logger.info(f"成功加载 {len(accounts)} 个账号")
-            return accounts
+            logger.info(f"成功加载 {len(data)} 个账号")
+            return data
         except Exception as e:
             logger.error(f"加载账号配置失败: {str(e)}")
             return []
