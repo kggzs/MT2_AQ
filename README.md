@@ -52,6 +52,10 @@
 ```bash
 pip install requests beautifulsoup4 baidu-aip pillow
 ```
+或使用命令安装所有依赖
+```bash
+pip install -r requirements.txt
+```
 
 ## 配置说明
 
