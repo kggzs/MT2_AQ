@@ -1,0 +1,30 @@
+{
+    "api": {
+        "baidu_ocr": {
+            "api_key": "你的百度OCR API Key",
+            "secret_key": "你的百度OCR Secret Key"
+        }
+    },
+    "request": {
+        "timeout": 30,
+        "max_retries": 3,
+        "retry_delay": 3,
+        "captcha_max_attempts": 3
+    },
+    "paths": {
+        "accounts_file": "accounts.json",
+        "cookies_dir": "cookies",
+        "logs_dir": "logs",
+        "history_file": "sign_history.json"
+    },
+    "sign": {
+        "account_delay": {
+            "min": 5,
+            "max": 10
+        },
+        "error_delay": {
+            "min": 10,
+            "max": 15
+        }
+    }
+}
