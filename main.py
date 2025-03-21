@@ -52,31 +52,26 @@ def run_multi_sign():
             signer = DzSigner(username, password, questionid, answer)
             result = signer.run()
             
-            if result:
-                success_count += 1
-                # 获取账号历史记录，提取积分奖励
-                account_history = history_manager.get_account_history(username)
-                if account_history and account_history['history']:
-                    latest_record = account_history['history'][-1]
-                    reward = latest_record.get('reward', 0)
-                    total_rewards += reward
-            else:
-                fail_count += 1
-                
-            # 每个账号之间添加随机延迟，避免触发网站反爬机制
-            # 最后一个账号不需要等待
+            success_count += 1 if result else fail_count + 1
+            
+            # 获取账号历史记录，提取积分奖励
+            account_history = history_manager.get_account_history(username)
+            if result and account_history and account_history['history']:
+                latest_record = account_history['history'][-1]
+                total_rewards += latest_record.get('reward', 0)
+            
+            # 非最后一个账号需要添加随机延迟
             if i < len(accounts) - 1:
-                # 随机延迟
                 delay = random.uniform(account_delay_min, account_delay_max)
                 logger.info(f"等待 {delay:.2f} 秒后处理下一个账号...")
                 time.sleep(delay)
                 
         except Exception as e:
-            # 获取账号信息，避免直接调用get方法
             account_username = account['username'] if isinstance(account, dict) and 'username' in account else '未知'
             logger.error(f"处理账号 {account_username} 时出现未捕获的异常: {str(e)}")
             fail_count += 1
-            # 出现异常时，添加额外延迟，避免连续请求失败
+            
+            # 非最后一个账号出现异常时添加额外延迟
             if i < len(accounts) - 1:
                 delay = random.uniform(error_delay_min, error_delay_max)
                 logger.info(f"出现异常，等待 {delay:.2f} 秒后继续...")
