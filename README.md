@@ -50,7 +50,7 @@
 1. 确保已安装Python 3.6或更高版本
 2. 安装所需依赖包：
 ```bash
-pip install requests beautifulsoup4
+pip install requests beautifulsoup4 baidu-aip pillow
 ```
 
 ## 配置说明
