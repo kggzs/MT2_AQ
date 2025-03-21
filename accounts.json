@@ -1,0 +1,16 @@
+{
+    "accounts": [
+        {
+            "username": "用户1",
+            "password": "123456",
+            "questionid": 0,
+            "answer": ""
+        },
+        {
+            "username": "用户2", 
+            "password": "123456",
+            "questionid": 1,
+            "answer": "安全问题答案"
+        }
+    ]
+}
