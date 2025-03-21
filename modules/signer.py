@@ -81,7 +81,6 @@ class DzSigner:
         """检查登录状态"""
         try:
             home_page = self.session.get('https://bbs.binmt.cc/', timeout=self.request_timeout)
-            # 检查是否包含已登录的标识
             return '访问我的空间' in home_page.text and self.username in home_page.text
         except Timeout:
             logger.error(f"[{self.username}] 检查登录状态超时")
@@ -422,10 +421,7 @@ class DzSigner:
                 for label, field_id in stats_fields.items():
                     try:
                         field = soup.find('input', {'id': field_id})
-                        if field and 'value' in field.attrs:
-                            stats[label] = field['value']
-                        else:
-                            stats[label] = 'N/A'
+                        stats[label] = field['value'] if field and 'value' in field.attrs else 'N/A'
                     except Exception as e:
                         logger.warning(f"[{self.username}] 获取{label}失败: {str(e)}")
                         stats[label] = 'N/A'
@@ -433,13 +429,13 @@ class DzSigner:
                 # 检查是否获取到了所有字段
                 if all(value != 'N/A' for value in stats.values()):
                     return stats
-                else:
-                    logger.warning(f"[{self.username}] 部分统计数据获取失败: {stats}")
-                    if attempt < self.max_retries - 1:
-                        logger.info(f"[{self.username}] 将重试获取统计数据...")
-                        time.sleep(self.retry_delay)
-                        continue
-                    return stats
+                    
+                logger.warning(f"[{self.username}] 部分统计数据获取失败: {stats}")
+                if attempt < self.max_retries - 1:
+                    logger.info(f"[{self.username}] 将重试获取统计数据...")
+                    time.sleep(self.retry_delay)
+                    continue
+                return stats
                     
             except Timeout:
                 logger.warning(f"[{self.username}] 获取统计数据超时，第{attempt+1}次尝试")
