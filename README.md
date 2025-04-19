@@ -145,6 +145,8 @@ python main.py
    - 可手动删除cookies目录下的对应文件
    - 检查账号是否被封禁或需要手动验证
 
+[![Star History Chart](https://api.star-history.com/svg?repos=kggzs/MT2_AQ&type=Date)](https://www.star-history.com/#kggzs/MT2_AQ&Date)
+
 ## 开源许可证
 
 本项目采用 GNU通用公共许可证第3版 (GNU General Public License v3.0)。这意味着：
